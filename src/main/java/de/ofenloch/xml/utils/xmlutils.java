@@ -72,6 +72,26 @@ public class xmlutils {
         writeDocToFile(document, fileName, false, true, 2);
     } // public static void writeDocToFile(Document document, String fileName)
 
+    public static Node getAttribute(Node node, String name) {
+        NamedNodeMap nodeAttributes = node.getAttributes();
+        if (nodeAttributes != null) {
+            return nodeAttributes.getNamedItem(name);
+        }
+        return null;
+    } // public static Node getAttribute(Node node, String name)
+
+    public static String getAttributeValue(Node node, String name) {
+        String value = "";
+        NamedNodeMap nodeAttributes = node.getAttributes();
+        if (nodeAttributes != null) {
+            Node attribute = nodeAttributes.getNamedItem(name);
+            if (attribute != null) {
+                value = attribute.getNodeValue();
+            }
+        }
+        return value;
+    } // public static String getAttributeValue(Node node, String name)
+
     public static Document loadXMLDocumentFromString(String xmlString)
             throws IOException, ParserConfigurationException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
