@@ -55,7 +55,7 @@ public class xmlutils {
 
     public static void writeDocToFile(Document document, String fileName) {
         writeDocToFile(document, fileName, false, true, 2);
-    }
+    } // public static void writeDocToFile(Document document, String fileName)
 
     public static Document loadXMLDocumentFromString(String xml)
             throws IOException, ParserConfigurationException, SAXException {
@@ -72,5 +72,5 @@ public class xmlutils {
         } catch (IOException e) {
             throw new IOException(e);
         }
-    }
-}
+    } // public static Document loadXMLDocumentFromString(String xml)
+} // public class xmlutils
