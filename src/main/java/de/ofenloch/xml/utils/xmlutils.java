@@ -1,6 +1,7 @@
 package de.ofenloch.xml.utils;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
@@ -17,6 +18,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -39,6 +42,18 @@ public class xmlutils {
             if (prettyPrint) {
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
                 transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer.toString(indent));
+                Node docRoot = document.getFirstChild();
+                NamedNodeMap docRootAttributes = docRoot.getAttributes();
+                if (docRootAttributes != null) {
+                    Node space = docRootAttributes.getNamedItem("space");
+                    if (space != null) {
+                        docRootAttributes.removeNamedItem("space");
+                    }
+                    Node xmlspace = docRootAttributes.getNamedItem("xml:space");
+                    if (xmlspace != null) {
+                        docRootAttributes.removeNamedItem("xml:space");
+                    }
+                }
             }
             DOMSource source = new DOMSource(document);
             StreamResult result = new StreamResult(writer);
@@ -57,13 +72,13 @@ public class xmlutils {
         writeDocToFile(document, fileName, false, true, 2);
     } // public static void writeDocToFile(Document document, String fileName)
 
-    public static Document loadXMLDocumentFromString(String xml)
+    public static Document loadXMLDocumentFromString(String xmlString)
             throws IOException, ParserConfigurationException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         try {
             builder = factory.newDocumentBuilder();
-            InputSource is = new InputSource(new StringReader(xml));
+            InputSource is = new InputSource(new StringReader(xmlString));
             return builder.parse(is);
         } catch (SAXException e) {
             throw new SAXException(e);
@@ -72,5 +87,6 @@ public class xmlutils {
         } catch (IOException e) {
             throw new IOException(e);
         }
-    } // public static Document loadXMLDocumentFromString(String xml)
+    } // public static Document loadXMLDocumentFromString(String xmlString)
+
 } // public class xmlutils
