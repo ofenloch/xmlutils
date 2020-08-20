@@ -89,4 +89,20 @@ public class xmlutils {
         }
     } // public static Document loadXMLDocumentFromString(String xmlString)
 
+    public static Document loadXMLDocumentFromFile(String xmlFileName)
+            throws IOException, ParserConfigurationException, SAXException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder;
+        try {
+            builder = factory.newDocumentBuilder();
+            InputSource is = new InputSource(new FileReader(new File(xmlFileName)));
+            return builder.parse(is);
+        } catch (SAXException e) {
+            throw new SAXException(e);
+        } catch (ParserConfigurationException e) {
+            throw e;
+        } catch (IOException e) {
+            throw new IOException(e);
+        }
+    } // public static Document loadXMLDocumentFromFile(String xmlFileName)
 } // public class xmlutils
