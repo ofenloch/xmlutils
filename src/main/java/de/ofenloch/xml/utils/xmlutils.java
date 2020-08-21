@@ -42,6 +42,8 @@ public class xmlutils {
             if (prettyPrint) {
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
                 transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer.toString(indent));
+                // If there is a xml:space attribute, it messes with the pretty printing.
+                // So we remove it before we call the transformer.
                 Node docRoot = document.getFirstChild();
                 NamedNodeMap docRootAttributes = docRoot.getAttributes();
                 if (docRootAttributes != null) {
